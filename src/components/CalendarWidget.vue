@@ -1,10 +1,9 @@
 <script setup lang="ts">
-  import { ref } from 'vue'
   import { startOfMonth, startOfWeek, format } from 'date-fns'
 
   const today = new Date()
 
-  const getCellDate = (row: number, col: number): string => {
+  const getCellDate = (row: number, col: number): Date => {
     const distance = row * 7 + col
     const cellDate = startOfWeek(startOfMonth(today))
     cellDate.setDate(cellDate.getDate() + distance)
@@ -28,14 +27,14 @@
         <th>Sat</th>
       </tr>
       <tr v-for="(_, row) in 5" :key="row">
-        <td v-for="(_, col) in 7" :key="col" :set="cellDate = getCellDate(row, col)" class="py-3">
-          <div v-if="row == 0 && col == 0 || format(cellDate, 'd') == '1'">
-            {{ format(cellDate, 'M/d') }}
+        <td v-for="(_, col) in 7" :key="col" class="py-3">
+          <div v-if="row == 0 && col == 0 || format(getCellDate(row, col), 'd') == '1'">
+            {{ format(getCellDate(row, col), 'M/d') }}
           </div>
           <div v-else>
-            {{ format(cellDate, 'd') }}
+            {{ format(getCellDate(row, col), 'd') }}
           </div>
-          <div v-if="format(cellDate, 'Y-M-d') == format(today, 'Y-M-d')" class="mx-auto w-3.5 h-0.5 rounded bg-indigo-500" />
+          <div v-if="format(getCellDate(row, col), 'Y-M-d') == format(today, 'Y-M-d')" class="mx-auto w-3.5 h-0.5 rounded bg-indigo-500" />
         </td>
       </tr>
     </table>
