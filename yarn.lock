@@ -199,6 +199,11 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.2.0.tgz#8be36a1f66f3265389e90b5f9c9962146758f728"
   integrity sha512-sXo/qW2/pAcmT43VoRKOJbDOfV3cYpq3szSVfIThQXNt+E4DfKj361vaAt3c88U5tPUxzEswam7GW48PJqtKAg==
 
+"@types/japanese-holidays@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@types/japanese-holidays/-/japanese-holidays-1.0.1.tgz#4fafb515d3a226317a97753d8267bb72d45d6460"
+  integrity sha512-zYK3cTkBmS7QICuM7fmToOSoOhHX0ziEofYnbFSQBwNFnNLXWxtwXEGSGqL+E4A7xwJJ1+3PxuS7ingHersjjA==
+
 "@types/json-schema@^7.0.9":
   version "7.0.11"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.11.tgz#d421b6c527a3037f7c84433fd2c4229e016863d3"
@@ -1484,6 +1489,11 @@ isexe@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
   integrity sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==
+
+japanese-holidays@^1.0.10:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/japanese-holidays/-/japanese-holidays-1.0.10.tgz#79dee9482b4be90848035fa512b237077549ad51"
+  integrity sha512-OiK5801c432ljumKnQ65TGw6HSEuetU0Fvlz1/BPPPqwxQZ2kPeCy3XHO6q5nf+6zJqIf1fqcpQjWp+/SimO6Q==
 
 js-sdsl@^4.1.4:
   version "4.4.0"
