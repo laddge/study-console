@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import TodayWidget from '../components/TodayWidget.vue'
 import TodoWidget from '../components/TodoWidget.vue'
+import BookshelfWidget from '../components/BookshelfWidget.vue'
 import CalendarWidget from '../components/CalendarWidget.vue'
 </script>
 
@@ -15,6 +16,9 @@ import CalendarWidget from '../components/CalendarWidget.vue'
       </div>
     </div>
     <div class="md:grow">
+      <div class="my-5 p-5 bg-white rounded-2xl border shadow-md">
+        <BookshelfWidget />
+      </div>
       <div class="my-5 p-5 bg-white rounded-2xl border shadow-md">
         <CalendarWidget />
       </div>
