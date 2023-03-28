@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { ref, onMounted } from 'vue'
-  import { getMonth, setMonth, getDate, startOfMonth, startOfWeek, format } from 'date-fns'
+  import { getMonth, setMonth, getDate, startOfMonth, endOfMonth, getWeekOfMonth, startOfWeek, format } from 'date-fns'
   import { ChevronLeftIcon, ChevronRightIcon, ArrowUturnLeftIcon } from '@heroicons/vue/24/solid'
 
   const month = ref(0)
@@ -37,7 +37,7 @@
         <th>Fri</th>
         <th>Sat</th>
       </tr>
-      <tr v-for="(_, row) in 5" :key="row">
+      <tr v-for="(_, row) in getWeekOfMonth(endOfMonth(setMonth(new Date(), month)))" :key="row">
         <td v-for="(_, col) in 7" :key="col" class="py-3">
           <div v-if="row == 0 && col == 0 || format(getCellDate(row, col), 'd') == '1'">
             {{ format(getCellDate(row, col), 'M/d') }}
