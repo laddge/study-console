@@ -14,8 +14,10 @@ import CalendarWidget from '../components/CalendarWidget.vue'
         <TodoWidget />
       </div>
     </div>
-    <div class="md:grow my-5 p-5 bg-white rounded-2xl border shadow-md">
-      <CalendarWidget />
+    <div class="md:grow">
+      <div class="my-5 p-5 bg-white rounded-2xl border shadow-md">
+        <CalendarWidget />
+      </div>
     </div>
   </main>
 </template>
