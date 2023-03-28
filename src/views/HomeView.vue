@@ -5,7 +5,7 @@ import CalendarWidget from '../components/CalendarWidget.vue'
 </script>
 
 <template>
-  <main class="container mx-auto px-5 md:flex gap-5">
+  <main class="container max-w-5xl mx-auto px-5 md:flex gap-5">
     <div class="md:flex-none md:w-56">
       <div class="my-5 p-5 bg-white md:h-56 rounded-2xl border shadow-md">
         <TodayWidget />
