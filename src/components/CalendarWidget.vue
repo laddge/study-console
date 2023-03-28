@@ -2,6 +2,7 @@
   import { ref } from 'vue'
   import { addMonths, getDate, startOfMonth, endOfMonth, getWeekOfMonth, startOfWeek, format } from 'date-fns'
   import { ChevronLeftIcon, ChevronRightIcon, ArrowUturnLeftIcon } from '@heroicons/vue/24/solid'
+  import CalendarCell from './CalendarCell.vue'
 
   const monthDiff = ref(0)
 
@@ -34,14 +35,8 @@
         <th>Sat</th>
       </tr>
       <tr v-for="(_, row) in getWeekOfMonth(endOfMonth(addMonths(startOfMonth(new Date()), monthDiff)))" :key="row">
-        <td v-for="(_, col) in 7" :key="col" class="py-3">
-          <div v-if="row == 0 && col == 0 || format(getCellDate(row, col), 'd') == '1'">
-            {{ format(getCellDate(row, col), 'M/d') }}
-          </div>
-          <div v-else>
-            {{ format(getCellDate(row, col), 'd') }}
-          </div>
-          <div v-if="format(getCellDate(row, col), 'Y-M-d') == format(new Date(), 'Y-M-d')" class="mx-auto w-3.5 h-0.5 rounded bg-indigo-500" />
+        <td v-for="(_, col) in 7" :key="col">
+          <CalendarCell :date="getCellDate(row, col)" />
         </td>
       </tr>
     </table>
