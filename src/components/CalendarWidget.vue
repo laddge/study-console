@@ -1,20 +1,31 @@
 <script setup lang="ts">
-  import { startOfMonth, startOfWeek, format } from 'date-fns'
+  import { ref, onMounted } from 'vue'
+  import { getMonth, setMonth, getDate, startOfMonth, startOfWeek, format } from 'date-fns'
+  import { ChevronLeftIcon, ChevronRightIcon, ArrowUturnLeftIcon } from '@heroicons/vue/24/solid'
 
-  const today = new Date()
+  const month = ref(0)
+
+  onMounted(() => {
+    month.value = getMonth(new Date())
+  })
 
   const getCellDate = (row: number, col: number): Date => {
-    const distance = row * 7 + col
-    const cellDate = startOfWeek(startOfMonth(today))
-    cellDate.setDate(cellDate.getDate() + distance)
+    const d = row * 7 + col
+    const cellDate = startOfWeek(startOfMonth(setMonth(new Date(), month.value)))
+    cellDate.setDate(getDate(cellDate) + d)
     return cellDate
   }
 </script>
 
 <template>
   <div>
-    <div class="mx-3 mb-3 text-2xl text-extrabold">
-      {{ format(today, 'MMMM') }}
+    <div class="mx-3 mb-4 text-xl flex gap-2 items-center">
+      <div class="grow font-bold">
+        {{ format(setMonth(new Date(), month), 'MMMM Y') }}
+      </div>
+      <ArrowUturnLeftIcon v-if="month != getMonth(new Date())" @click="month = getMonth(new Date())" class="h-5 w-5 mr-3 text-indigo-500" />
+      <ChevronLeftIcon @click="month--" class="h-6 w-6 text-indigo-500" />
+      <ChevronRightIcon @click="month++" class="h-6 w-6 text-indigo-500" />
     </div>
     <table class="table-fixed w-full text-center">
       <tr>
@@ -34,7 +45,7 @@
           <div v-else>
             {{ format(getCellDate(row, col), 'd') }}
           </div>
-          <div v-if="format(getCellDate(row, col), 'Y-M-d') == format(today, 'Y-M-d')" class="mx-auto w-3.5 h-0.5 rounded bg-indigo-500" />
+          <div v-if="format(getCellDate(row, col), 'Y-M-d') == format(new Date(), 'Y-M-d')" class="mx-auto w-3.5 h-0.5 rounded bg-indigo-500" />
         </td>
       </tr>
     </table>
