@@ -26,6 +26,7 @@ jobs:
       - name: Deploy
         run: |
           yarn global add firebase-tools
-          firebase deploy --token $FIREBASE_TOKEN
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          echo -n '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' > key.json
+          firebase deploy
+          env:
+            GOOGLE_APPLICATION_CREDENTIALS: key.json
