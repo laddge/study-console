@@ -18,10 +18,10 @@
           {{ format(new Date(), 'M / d') }}
         </div>
       </div>
-      <div class="ml-auto md:ml-0 flex items-center text-indigo-500 text-xl gap-x-1">
+      <button class="ml-auto md:ml-0 flex items-center text-indigo-500 text-xl gap-x-1">
         <UserCircleIcon class="h-7 w-7" />
         Login
-      </div>
+      </button>
     </div>
     <div class="md:flex gap-5">
       <div class="md:flex-none md:w-56">

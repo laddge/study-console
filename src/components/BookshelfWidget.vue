@@ -11,10 +11,12 @@
       <div class="grow font-bold">
         本棚
       </div>
-      <PlusIcon @click="count++" class="h-6 w-6 text-indigo-500" />
+      <button @click="count++" class="h-6 w-6 text-indigo-500">
+        <PlusIcon />
+      </button>
     </div>
-    <div class="grid grid-col-1 md:grid-cols-2 gap-y-5">
-      <div v-for="i in count" :key="i" class="flex items-center gap-3 pr-5">
+    <ul class="grid grid-col-1 md:grid-cols-2 gap-y-5">
+      <li v-for="i in count" :key="i" class="flex items-center gap-3 pr-5">
         <div class="flex-none h-3 w-3 rounded-full bg-blue-500" />
         <div class="w-full table table-fixed">
           <div class="table-cell truncate text-lg">
@@ -26,7 +28,7 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </li>
+    </ul>
   </div>
 </template>
