@@ -3,14 +3,38 @@
   import { format } from 'date-fns'
   import { ExclamationCircleIcon, XMarkIcon } from '@heroicons/vue/24/outline'
   import { getAuth, signInWithRedirect, onAuthStateChanged, signOut, GoogleAuthProvider } from 'firebase/auth'
+  import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
   import TodayWidget from '../components/TodayWidget.vue'
   import TodoWidget from '../components/TodoWidget.vue'
   import BookshelfWidget from '../components/BookshelfWidget.vue'
   import CalendarWidget from '../components/CalendarWidget.vue'
 
   const user = ref()
+  const userData = ref()
   const authorized = ref(false)
   const error = ref(false)
+
+  const readData = (async () => {
+    try {
+      const userDoc = await getDoc(doc(getFirestore(), 'users', user.value.uid))
+      if (userDoc.exists()) {
+        userData.value = userDoc.data()
+      } else {
+        const data = {
+          user: {
+            uid: user.value.uid,
+            displayName: user.value.displayName,
+            email: user.value.email
+          }
+        }
+        await setDoc(doc(getFirestore(), 'users', user.value.uid), data)
+        userData.value = data
+      }
+    } catch (e) {
+      error.value = true
+      console.log(e)
+    }
+  })
 
   const login = (async () => {
     try {
@@ -34,10 +58,11 @@
   })
 
   onMounted(() => {
-    onAuthStateChanged(getAuth(), (_user) => {
+    onAuthStateChanged(getAuth(), async (_user) => {
       authorized.value = true
       if (_user) {
         user.value = _user
+        readData()
       }
     })
   })
