@@ -5,6 +5,7 @@ import App from './App.vue'
 import router from './router'
 
 import './index.css'
+import './firebase'
 
 const app = createApp(App)
 

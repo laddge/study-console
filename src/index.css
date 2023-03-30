@@ -3,3 +3,5 @@
 @tailwind utilities;
 
 button { touch-action: manipulation; }
+
+.dropdown:hover > .dropdown-menu { display: block; }
