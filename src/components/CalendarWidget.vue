@@ -20,13 +20,13 @@
       <div class="grow font-bold">
         {{ format(addMonths(startOfMonth(new Date()), monthDiff), 'Y年 M月') }}
       </div>
-      <button v-if="monthDiff != 0" @click="monthDiff = 0" class="h-5 w-5 mr-3 text-indigo-500">
+      <button v-if="monthDiff != 0" @click="monthDiff = 0" class="h-5 w-5 mr-3 text-indigo-500 rounded hover:bg-gray-200 active:bg-gray-300">
         <ArrowUturnLeftIcon />
       </button>
-      <button @click="monthDiff--" class="h-6 w-6 text-indigo-500">
+      <button @click="monthDiff--" class="h-6 w-6 text-indigo-500 rounded hover:bg-gray-200 active:bg-gray-300">
         <ChevronLeftIcon />
       </button>
-      <button @click="monthDiff++" class="h-6 w-6 text-indigo-500">
+      <button @click="monthDiff++" class="h-6 w-6 text-indigo-500 rounded hover:bg-gray-200 active:bg-gray-300">
         <ChevronRightIcon />
       </button>
     </div>

@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-button { touch-action: manipulation; }
+button {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
 
 .dropdown:hover > .dropdown-menu { display: block; }

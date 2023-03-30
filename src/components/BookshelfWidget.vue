@@ -11,7 +11,7 @@
       <div class="grow font-bold">
         本棚
       </div>
-      <button @click="count++" class="h-6 w-6 text-indigo-500">
+      <button @click="count++" class="h-6 w-6 text-indigo-500 rounded hover:bg-gray-200 active:bg-gray-300">
         <PlusIcon />
       </button>
     </div>
