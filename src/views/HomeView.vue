@@ -2,8 +2,9 @@
   import { ref, onMounted } from 'vue'
   import { format } from 'date-fns'
   import { ExclamationCircleIcon, XMarkIcon } from '@heroicons/vue/24/outline'
-  import { getAuth, signInWithRedirect, onAuthStateChanged, signOut, GoogleAuthProvider } from 'firebase/auth'
-  import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
+  import { signInWithRedirect, onAuthStateChanged, signOut, GoogleAuthProvider } from 'firebase/auth'
+  import { doc, getDoc, setDoc } from 'firebase/firestore'
+  import { auth, db } from '../firebase'
   import TodayWidget from '../components/TodayWidget.vue'
   import TodoWidget from '../components/TodoWidget.vue'
   import BookshelfWidget from '../components/BookshelfWidget.vue'
@@ -16,7 +17,7 @@
 
   const readData = (async () => {
     try {
-      const userDoc = await getDoc(doc(getFirestore(), 'users', user.value.uid))
+      const userDoc = await getDoc(doc(db, 'users', user.value.uid))
       if (userDoc.exists()) {
         userData.value = userDoc.data()
       } else {
@@ -27,7 +28,7 @@
             email: user.value.email
           }
         }
-        await setDoc(doc(getFirestore(), 'users', user.value.uid), data)
+        await setDoc(doc(db, 'users', user.value.uid), data)
         userData.value = data
       }
     } catch (e) {
@@ -39,7 +40,7 @@
   const login = (async () => {
     try {
       authorized.value = false
-      await signInWithRedirect(getAuth(), new GoogleAuthProvider())
+      await signInWithRedirect(auth, new GoogleAuthProvider())
     } catch (e) {
       authorized.value = true
       error.value = true
@@ -49,7 +50,7 @@
 
   const logout = (async () => {
     try {
-      await signOut(getAuth())
+      await signOut(auth)
       location.reload()
     } catch (e) {
       error.value = true
@@ -58,7 +59,7 @@
   })
 
   onMounted(() => {
-    onAuthStateChanged(getAuth(), async (_user) => {
+    onAuthStateChanged(auth, async (_user) => {
       authorized.value = true
       if (_user) {
         user.value = _user
