@@ -3,7 +3,7 @@
   import { format } from 'date-fns'
   import { ExclamationCircleIcon, XMarkIcon } from '@heroicons/vue/24/outline'
   import { signInWithRedirect, onAuthStateChanged, signOut, GoogleAuthProvider } from 'firebase/auth'
-  import { doc, getDoc, setDoc } from 'firebase/firestore'
+  import { doc, getDoc, setDoc } from 'firebase/firestore/lite'
   import { auth, db } from '../firebase'
   import TodayWidget from '../components/TodayWidget.vue'
   import TodoWidget from '../components/TodoWidget.vue'
