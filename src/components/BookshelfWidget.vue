@@ -1,12 +1,16 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { PlusIcon } from '@heroicons/vue/24/solid'
+  import { storeToRefs } from 'pinia'
+  import { useDataStore } from '../stores/data'
 
+  const { userData } = storeToRefs(useDataStore())
   const count = ref(3)
 </script>
 
 <template>
   <div>
+    {{ userData }}
     <div class="mx-3 mb-4 text-xl flex gap-2 items-center">
       <div class="grow font-bold">
         本棚
