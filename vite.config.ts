@@ -26,6 +26,14 @@ export default defineConfig(({ mode }) => {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url))
       }
+    },
+    server: {
+      proxy: {
+        '/__/auth': {
+          target: 'https://study-console.firebaseapp.com',
+          changeOrigin: true
+        }
+      }
     }
   }
 })
