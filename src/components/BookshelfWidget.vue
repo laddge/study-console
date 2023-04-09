@@ -119,8 +119,8 @@
         <PlusIcon />
       </button>
     </div>
-    <ul v-if="userData" class="grid grid-col-1 md:grid-cols-2 gap-3">
-      <li v-if="userData.books" v-for="book in userData.books.sort((a, b) => b.updatedAt - a.updatedAt)" :key="book.id">
+    <ul v-if="userData && userData.books" class="grid grid-col-1 md:grid-cols-2 gap-3">
+      <li v-for="book in userData.books.sort((a, b) => b.updatedAt - a.updatedAt)" :key="book.id">
         <button @click="memory = cloneDeep(book)" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-200 active:bg-gray-300">
           <div :class="`flex-none h-3 w-3 rounded-full bg-${book.color}-500`" />
           <div class="w-full table table-fixed">
@@ -188,8 +188,8 @@
               <div class="w-24 p-2">操作</div>
             </div>
             <div class="h-80 overflow-scroll">
-              <table class="w-full text-left">
-                <tr v-if="memory.questions" v-for="q in memory.questions.sort((a, b) => a.order - b.order)" :key="q.id">
+              <table v-if="memory.questions" class="w-full text-left">
+                <tr v-for="q in memory.questions.sort((a, b) => a.order - b.order)" :key="q.id">
                   <td :ref="el => td0[q.id] = el" class="p-2 border-y transition">{{ q.name }}</td>
                   <td :ref="el => td1[q.id] = el" class="p-2 w-24 border-y transition">
                     <div class="flex items-center gap-2">
@@ -260,8 +260,8 @@
             <div class="w-1/2 p-2">状態</div>
           </div>
           <div class="h-96 overflow-scroll">
-            <table class="w-full table-fixed text-left">
-              <tr v-if="memory.questions" v-for="q in memory.questions.sort((a, b) => a.order - b.order)" :key="q.id">
+            <table v-if="memory.questions" class="w-full table-fixed text-left">
+              <tr v-for="q in memory.questions.sort((a, b) => a.order - b.order)" :key="q.id">
                 <td class="p-2 border-y">{{ q.name }}</td>
                 <td class="p-2 border-y">
                   <div class="flex items-center gap-2">
