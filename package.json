@@ -17,8 +17,11 @@
     "date-fns": "^2.29.3",
     "firebase": "^9.18.0",
     "japanese-holidays": "^1.0.10",
+    "lodash": "^4.17.21",
+    "nanoid": "^4.0.2",
     "pinia": "^2.0.32",
     "vue": "^3.2.47",
+    "vue-final-modal": "^4.2.0",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {

@@ -27,5 +27,12 @@ export const useDataStore = defineStore('data', () => {
     })
   }
 
-  return { userData, readData }
+  const updateData = () => {
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) return
+      await setDoc(doc(db, 'users', user.uid), userData.value)
+    })
+  }
+
+  return { userData, readData, updateData }
 })
