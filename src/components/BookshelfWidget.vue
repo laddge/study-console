@@ -9,12 +9,30 @@
 
   const { userData } = storeToRefs(useDataStore())
   const { updateData } = useDataStore()
+
+  interface Question {
+    id: string,
+    name: string,
+    status?: number,
+    order: number
+  }
+  interface Book {
+    id: string,
+    name: string,
+    color: string,
+    questions: Question[],
+    updatedAt: number
+  }
+
   const editing = ref(false)
-  const memory = ref({})
+  const memory = ref<Book>({
+    id: '',
+    name: '',
+    color: '',
+    questions: [],
+    updatedAt: 0
+  })
   const insertText = ref('')
-  const td0 = ref({})
-  const td1 = ref({})
-  const td2 = ref({})
   const modalModel = computed({
     get() {
       return memory.value.id ? true : false
@@ -22,17 +40,24 @@
     set(val) {
       if (!val) {
         editing.value = false
-        memory.value = {}
+        memory.value = {
+          id: '',
+          name: '',
+          color: '',
+          questions: [],
+          updatedAt: 0
+        }
         insertText.value = ''
       }
     }
   })
-  const countStatus = (status, book) => {
+  const countStatus = (status: number, book: Book): number => {
+    if (!book.questions) return 0
     const num = book.questions.filter(q => q.status == status).length
     const den = book.questions.length
     return num / den * 100
   }
-  const statusToColor = (status) => {
+  const statusToColor = (status: number | undefined) => {
     if (status == 0) {
       return 'emerald-500'
     } else if (status == 1) {
@@ -54,12 +79,14 @@
     }
     memory.value.questions.push({ id: nanoid(), name: insertText.value, order })
     const matches = insertText.value.match(/([\d]+)[^\d]*$/)
+    if (!matches) return
     if (matches.length > 1) {
       const num = Number(matches[1])
       insertText.value = insertText.value.replace(new RegExp(`(.*)${num}`),  `$1${num + 1}`)
     }
   }
-  const reOrder = async (qid, down = false) => {
+  const reOrder = async (qid: string, down = false) => {
+    if (!memory.value.questions) return
     const target = memory.value.questions.filter(q => q.id == qid)[0]
     let oppos = memory.value.questions.filter(q => q.order < target.order).sort((a, b) => b.order - a.order)
     if (down) {
@@ -72,19 +99,25 @@
     target.order = oppoOrder
     oppo.order = targetOrder
     await nextTick()
-    td0.value[target.id].classList.add('bg-gray-200')
-    td1.value[target.id].classList.add('bg-gray-200')
-    td2.value[target.id].classList.add('bg-gray-200')
+    for (let i: number = 0; i < 3; i++) {
+      const el = document.getElementById(`${target.id}${i}`)
+      if (el) {
+        el.classList.add('bg-gray-200')
+      }
+    }
     setTimeout(() => {
-      td0.value[target.id].classList.remove('bg-gray-200')
-      td1.value[target.id].classList.remove('bg-gray-200')
-      td2.value[target.id].classList.remove('bg-gray-200')
+      for (let i: number = 0; i < 3; i++) {
+        const el = document.getElementById(`${target.id}${i}`)
+        if (el) {
+          el.classList.remove('bg-gray-200')
+        }
+      }
     }, 500)
   }
   const delBook = () => {
-    if (!memory.value.id) return
+    if (!memory.value.id || !userData.value.books) return
     if (confirm(`[ ${memory.value.name} ] を削除しますか？`)) {
-      userData.value.books = userData.value.books.filter(book => book.id != memory.value.id)
+      userData.value.books = userData.value.books.filter((book: Book) => book.id != memory.value.id)
       try {
         updateData()
         modalModel.value = false
@@ -96,7 +129,7 @@
   }
   const save = () => {
     if (!userData.value.books) userData.value.books = []
-    userData.value.books = userData.value.books.filter(book => book.id != memory.value.id)
+    userData.value.books = userData.value.books.filter((book: Book) => book.id != memory.value.id)
     memory.value.updatedAt = Date.now()
     userData.value.books.push(memory.value)
     try {
@@ -120,7 +153,7 @@
       </button>
     </div>
     <ul v-if="userData && userData.books" class="grid grid-col-1 md:grid-cols-2 gap-3">
-      <li v-for="book in userData.books.sort((a, b) => b.updatedAt - a.updatedAt)" :key="book.id">
+      <li v-for="book in userData.books.sort((a: Book, b: Book) => b.updatedAt - a.updatedAt)" :key="book.id">
         <button @click="memory = cloneDeep(book)" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-200 active:bg-gray-300">
           <div :class="`flex-none h-3 w-3 rounded-full bg-${book.color}-500`" />
           <div class="w-full table table-fixed">
@@ -190,8 +223,8 @@
             <div class="h-80 overflow-scroll">
               <table v-if="memory.questions" class="w-full text-left">
                 <tr v-for="q in memory.questions.sort((a, b) => a.order - b.order)" :key="q.id">
-                  <td :ref="el => td0[q.id] = el" class="p-2 border-y transition">{{ q.name }}</td>
-                  <td :ref="el => td1[q.id] = el" class="p-2 w-24 border-y transition">
+                  <td :id="`${q.id}0`" class="p-2 border-y transition">{{ q.name }}</td>
+                  <td :id="`${q.id}1`" class="p-2 w-24 border-y transition">
                     <div class="flex items-center gap-2">
                       <div :class="`flex-none h-3 w-3 rounded-full bg-${statusToColor(q.status)}`" />
                       <select v-model="q.status" class="outline-0 border-2 focus:ring-2 focus:ring-indigo-300 rounded">
@@ -202,7 +235,7 @@
                       </select>
                     </div>
                   </td>
-                  <td :ref="el => td2[q.id] = el" class="p-2 w-24 border-y transition">
+                  <td :id="`${q.id}2`" class="p-2 w-24 border-y transition">
                     <div class="flex items-center">
                       <div class="grow flex items-center justify-center">
                         <button @click="reOrder(q.id)" class="h-6 w-6 text-indigo-500">
